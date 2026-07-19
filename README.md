@@ -1,14 +1,12 @@
 # 🚨 Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
-![image](https://github.com/user-attachments/assets/635450ed-4a22-4267-b4aa-90dca6747fe7)
-
-________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## ✦ Arquitectura de Autoridad Propia.✦
 
 ***Un pipeline de Streaming con Apache Flink construido <mark>SIN JAVA</mark>. Potencia de Flink combinada con la simplicidad de <mark>Python</mark> y <mark>SQL</mark>.***
-
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
-### 🚀 Nota de Arquitectura: El enfoque "Zero Java" en Apache Flink
+![image](https://github.com/user-attachments/assets/635450ed-4a22-4267-b4aa-90dca6747fe7)
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+### 📌 Nota de Arquitectura: El enfoque "Zero Java" en Apache Flink
 
 Este proyecto fue diseñado, desarrollado y desplegado al 100% desde cero por mí, con una premisa de arquitectura clave: **Cero código Java**.
 
