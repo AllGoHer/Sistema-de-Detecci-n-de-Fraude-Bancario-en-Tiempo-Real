@@ -62,11 +62,21 @@ ________________________________________________________________________________
 | Visualización | Grafana 10.x | Cuadros de mando en tiempo real |
 | Orquestación | Docker Compose | Infraestructura en contenedores |
 
+____________________________________________________________________________________________________________________________________
+* **Ingesta (Productor):** Python 3.11 con . Utiliza múltiples hilos (multiproceso) y para transacciones similares legítimas y ataques de velocidad (Velocity Bursts).kafka-python-ngdataclasses.
+* **Broker de Mensajes:** Apache Kafka 3.9.0 en modo KRaft (sin dependencias de Zookeeper).
+* **Motor de Procesamiento:** Apache Flink 1.17.1. Se utiliza la API de Flink SQL para definir Marcas de agua, Hora del evento y ventanas Tumble de 10 segundos sin escribir código Java/Scala.
+* **Alojamiento (Sink):** MySQL 8.0. (Decisión técnica: Se optó por MySQL sobre PostgreSQL/ClickHouse porque el conector JDBC nativo de Flink lo permite fuera de la caja en Windows, evitando errores de dialectos o dependencias faltantes).
+* **Visualización:** Grafana configurada con actualización automática cada 5 segundos sobre consultas SQL directas a MySQL.
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________________
 ![image](https://github.com/user-attachments/assets/a3d7b514-4cd8-4637-956e-f8c405786306)
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 📚Estructura del Proyecto
 
-![image]()
+![image](https://github.com/user-attachments/assets/cbd74f26-4484-4a40-936b-c984183e2211)
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
 
 ![image]()
 
