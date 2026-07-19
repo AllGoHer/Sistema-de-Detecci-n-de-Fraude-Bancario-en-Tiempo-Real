@@ -53,6 +53,7 @@ ________________________________________________________________________________
 ## 🛠️ Pila tecnológica
 
 | Capa | Tecnología | Finalidad |
+|------|------------|-----------|
 | Fuente de datos | Python + Kafka Producer | Simular transacciones en tiempo real |
 | Broker de mensajes | Apache Kafka (KRaft) | Transmisión de eventos de alto rendimiento |
 | Procesamiento | Apache Flink 1.17.1 | Procesamiento de flujos y detección de fraudes |
