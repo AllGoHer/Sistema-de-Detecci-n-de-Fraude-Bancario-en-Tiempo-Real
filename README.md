@@ -21,11 +21,68 @@ ________________________________________________________________________________
 ![image](https://img.shields.io/badge/MySQL-8.0-orange)
 ![image](https://img.shields.io/badge/Grafana-10.x-green)
 ![image](https://img.shields.io/badge/Docker-24.x-blue)
+![image](https://github.com/user-attachments/assets/ef9e51f1-7111-4af0-bb7f-e8fcb270e86a)
+
 
 **🎯 El reto: el fraude bancario en tiempo real**
 
-«Cada segundo se producen miles de transacciones fraudulentas en todo el mundo. El procesamiento por lotes tradicional detecta el fraude horas más tarde, cuando el dinero ya se ha perdido».
+*Cada segundo se producen miles de transacciones fraudulentas en todo el mundo. El procesamiento por lotes tradicional detecta el fraude horas más tarde, cuando el dinero ya se ha perdido*.
 
 Este proyecto resuelve ese problema. Se trata de un canal de streaming de alta velocidad que detecta transacciones bancarias fraudulentas en tiempo real, utilizando Apache Flink como motor de procesamiento y Kafka como intermediario de eventos.
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 🏗️ Arquitectura: canalización de streaming de extremo a extremo
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         DATA SOURCE LAYER                                  │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │              Fraud Simulator (Producer)                             │  │
+│  │  • Generates 1000+ transactions/second                             │  │
+│  │  • Injects fraud patterns (velocity bursts, drift)                 │  │
+│  │  • 100 synthetic users with realistic behavior                     │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         INGESTION LAYER                                    │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │                    Apache Kafka (KRaft Mode)                        │  │
+│  │  • Topic: bank_transactions                                        │  │
+│  │  • Partitioned by user_id for stateful processing                  │  │
+│  │  • High-throughput with Exactly-Once semantics                     │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         PROCESSING LAYER                                   │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │                    Apache Flink (SQL Client)                        │  │
+│  │                                                                      │  │
+│  │  ┌─────────────────────────────────────────────────────────────┐   │  │
+│  │  │  1. Tumbling Windows (10 seconds)                          │   │  │
+│  │  │  2. Aggregations: COUNT, SUM, FRAUD_COUNT                  │   │  │
+│  │  │  3. Fraud Detection:                                       │   │  │
+│  │  │     • Velocity > 100 tx/10s → ALERT                        │   │  │
+│  │  │     • Any fraud flag → ALERT                               │   │  │
+│  │  └─────────────────────────────────────────────────────────────┘   │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         STORAGE & VISUALIZATION LAYER                      │
+│  ┌──────────────────────────────────────────────────────────────────────┐  │
+│  │                        MySQL + Grafana                              │  │
+│  │                                                                      │  │
+│  │  • MySQL: Stores fraud alerts and metrics                           │  │
+│  │  • Grafana: Real-time dashboards with KPIs                          │  │
+│  │    - Total Fraud Alerts                                             │  │
+│  │    - Fraud by User                                                  │  │
+│  │    - Transaction Velocity                                           │  │
+│  │    - Amount Distribution                                            │  │
+│  └──────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
 
 
