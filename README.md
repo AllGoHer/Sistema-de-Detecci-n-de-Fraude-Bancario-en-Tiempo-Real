@@ -1,8 +1,21 @@
-# Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real
+# 🚨 Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real
 __________________________________________________________________________________________________________________________________________________________________________________________________________________
+
 ![image](https://github.com/user-attachments/assets/635450ed-4a22-4267-b4aa-90dca6747fe7)
 
 
+__________________________________________________________________________________________________________________________________________________________________________________________________________________
+https://img.shields.io/badge/License-MIT-yellow.svg
+https://img.shields.io/badge/Apache%2520Flink-1.17.1-blue
+https://img.shields.io/badge/Apache%2520Kafka-3.9.0-black
+https://img.shields.io/badge/MySQL-8.0-orange
+https://img.shields.io/badge/Grafana-10.x-green
+https://img.shields.io/badge/Docker-24.x-blue
+
+⚡**Canalización de datos en tiempo real con Apache Flink para la prevención de delitos financieros**
+
+
+El Presente proyecto es de autoria propia, creada de principio a fin co 
 
 
 
