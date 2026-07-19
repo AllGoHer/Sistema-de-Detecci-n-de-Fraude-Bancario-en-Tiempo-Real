@@ -33,57 +33,45 @@ Este proyecto resuelve ese problema. Se trata de un canal de streaming de alta v
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 🏗️ Arquitectura: canalización de streaming de extremo a extremo
 
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         CAPA FUENTE DE DATOS                                │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │              Simulador  de farude (Producer)                          │  │
-│  │  • Genera 1000+ transacciones/segundo                                 │  │
-│  │  • Inyecta patrones de fraude (picos de velocidad, desviaciones)      │  │
-│  │  • 100 usuarios artificiales con un comportamiento realista           │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         CAPA DE INGESTA                                     │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                    Apache Kafka (KRaft Mode)                          │  │
-│  │  • Topic: bank_transactions                                           │  │
-│  │  • Dividido por user_id para el procesamiento con estado              │  │
-│  │  • Alto rendimiento con semántica Exactly-Once                        │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         CAPA DE PROCESAMIENTO                               │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                    Apache Flink (SQL Client)                          │  │
-│  │                                                                       │  │
-│  │  ┌────────────────────────────────────────────────────────────────┐   │  │
-│  │  │  1. Tumbling Windows (10 segundos)                             │   │  │
-│  │  │  2. Aggregations: COUNT, SUM, FRAUD_COUNT                      │   │  │
-│  │  │  3. Detección de Fraude:                                       │   │  │
-│  │  │     • Velocidad > 100 tx/10s → ALERTA                          │   │  │
-│  │  │     • Cualquier indicio de fraude → ALERTA                     │   │  │
-│  │  └────────────────────────────────────────────────────────────────┘   │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 CAPA DE ALMACENAMIENTO Y VISUALIZACIÓN                      │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                        MySQL + Grafana                                │  │
-│  │                                                                       │  │
-│  │  • MySQL: Almacena alertas de fraude y métricas                       │  │
-│  │  • Grafana: Cuadros de mando en tiempo real con KPI's                 │  │
-│  │    - Total de Alertas de Fraude                                       │  │
-│  │    - Fraude por Usuario                                               │  │
-│  │    - Velocidad de Transacciones                                       │  │
-│  │    - Asignación de Montos                                             │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
-
 ![iamge](https://github.com/user-attachments/assets/b7205bcd-2f0f-4b99-b624-d8b2cb27a0f5)
 ![image](https://github.com/user-attachments/assets/43dc804e-ebed-45c9-96b5-1c3f220440ba)
+
+![image](https://github.com/user-attachments/assets/e9b79576-6494-4eff-9a9a-596cc0a39220)
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
