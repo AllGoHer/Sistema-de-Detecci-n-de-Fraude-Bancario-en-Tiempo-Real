@@ -34,55 +34,56 @@ ________________________________________________________________________________
 ## 🏗️ Arquitectura: canalización de streaming de extremo a extremo
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         DATA SOURCE LAYER                                  │
-│  ┌──────────────────────────────────────────────────────────────────────┐  │
-│  │              Fraud Simulator (Producer)                             │  │
-│  │  • Generates 1000+ transactions/second                             │  │
-│  │  • Injects fraud patterns (velocity bursts, drift)                 │  │
-│  │  • 100 synthetic users with realistic behavior                     │  │
-│  └──────────────────────────────────────────────────────────────────────┘  │
+│                         CAPA FUENTE DE DATOS                                │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │              Simulador  de farude (Producer)                          │  │
+│  │  • Genera 1000+ transacciones/segundo                                 │  │
+│  │  • Inyecta patrones de fraude (picos de velocidad, desviaciones)      │  │
+│  │  • 100 usuarios artificiales con un comportamiento realista           │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         INGESTION LAYER                                    │
-│  ┌──────────────────────────────────────────────────────────────────────┐  │
-│  │                    Apache Kafka (KRaft Mode)                        │  │
-│  │  • Topic: bank_transactions                                        │  │
-│  │  • Partitioned by user_id for stateful processing                  │  │
-│  │  • High-throughput with Exactly-Once semantics                     │  │
-│  └──────────────────────────────────────────────────────────────────────┘  │
+│                         CAPA DE INGESTA                                     │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                    Apache Kafka (KRaft Mode)                          │  │
+│  │  • Topic: bank_transactions                                           │  │
+│  │  • Dividido por user_id para el procesamiento con estado              │  │
+│  │  • Alto rendimiento con semántica Exactly-Once                        │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         PROCESSING LAYER                                   │
-│  ┌──────────────────────────────────────────────────────────────────────┐  │
-│  │                    Apache Flink (SQL Client)                        │  │
-│  │                                                                      │  │
-│  │  ┌─────────────────────────────────────────────────────────────┐   │  │
-│  │  │  1. Tumbling Windows (10 seconds)                          │   │  │
-│  │  │  2. Aggregations: COUNT, SUM, FRAUD_COUNT                  │   │  │
-│  │  │  3. Fraud Detection:                                       │   │  │
-│  │  │     • Velocity > 100 tx/10s → ALERT                        │   │  │
-│  │  │     • Any fraud flag → ALERT                               │   │  │
-│  │  └─────────────────────────────────────────────────────────────┘   │  │
-│  └──────────────────────────────────────────────────────────────────────┘  │
+│                         CAPA DE PROCESAMIENTO                               │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                    Apache Flink (SQL Client)                          │  │
+│  │                                                                       │  │
+│  │  ┌────────────────────────────────────────────────────────────────┐   │  │
+│  │  │  1. Tumbling Windows (10 segundos)                             │   │  │
+│  │  │  2. Aggregations: COUNT, SUM, FRAUD_COUNT                      │   │  │
+│  │  │  3. Detección de Fraude:                                       │   │  │
+│  │  │     • Velocidad > 100 tx/10s → ALERTA                          │   │  │
+│  │  │     • Cualquier indicio de fraude → ALERTA                     │   │  │
+│  │  └────────────────────────────────────────────────────────────────┘   │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         STORAGE & VISUALIZATION LAYER                      │
-│  ┌──────────────────────────────────────────────────────────────────────┐  │
-│  │                        MySQL + Grafana                              │  │
-│  │                                                                      │  │
-│  │  • MySQL: Stores fraud alerts and metrics                           │  │
-│  │  • Grafana: Real-time dashboards with KPIs                          │  │
-│  │    - Total Fraud Alerts                                             │  │
-│  │    - Fraud by User                                                  │  │
-│  │    - Transaction Velocity                                           │  │
-│  │    - Amount Distribution                                            │  │
-│  └──────────────────────────────────────────────────────────────────────┘  │
+│                 CAPA DE ALMACENAMIENTO Y VISUALIZACIÓN                      │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                        MySQL + Grafana                                │  │
+│  │                                                                       │  │
+│  │  • MySQL: Almacena alertas de fraude y métricas                       │  │
+│  │  • Grafana: Cuadros de mando en tiempo real con KPI's                 │  │
+│  │    - Total de Alertas de Fraude                                       │  │
+│  │    - Fraude por Usuario                                               │  │
+│  │    - Velocidad de Transacciones                                       │  │
+│  │    - Asignación de Montos                                             │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────┘
 
-
+![iamge](https://github.com/user-attachments/assets/b7205bcd-2f0f-4b99-b624-d8b2cb27a0f5)
+![image](https://github.com/user-attachments/assets/43dc804e-ebed-45c9-96b5-1c3f220440ba)
