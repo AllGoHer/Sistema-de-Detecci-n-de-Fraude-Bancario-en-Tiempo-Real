@@ -5,12 +5,12 @@ ________________________________________________________________________________
 
 
 __________________________________________________________________________________________________________________________________________________________________________________________________________________
-https://img.shields.io/badge/License-MIT-yellow.svg
-https://img.shields.io/badge/Apache%2520Flink-1.17.1-blue
-https://img.shields.io/badge/Apache%2520Kafka-3.9.0-black
-https://img.shields.io/badge/MySQL-8.0-orange
-https://img.shields.io/badge/Grafana-10.x-green
-https://img.shields.io/badge/Docker-24.x-blue
+![image](https://img.shields.io/badge/License-MIT-yellow.svg)
+![image](https://img.shields.io/badge/Apache%2520Flink-1.17.1-blue)
+![image](https://img.shields.io/badge/Apache%2520Kafka-3.9.0-black)
+![image](https://img.shields.io/badge/MySQL-8.0-orange)
+![image](https://img.shields.io/badge/Grafana-10.x-green)
+![image](https://img.shields.io/badge/Docker-24.x-blue)
 
 ⚡**Canalización de datos en tiempo real con Apache Flink para la prevención de delitos financieros**
 
