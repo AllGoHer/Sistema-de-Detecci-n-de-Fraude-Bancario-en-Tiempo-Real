@@ -38,7 +38,7 @@ ________________________________________________________________________________
 
 ![image](https://github.com/user-attachments/assets/e9b79576-6494-4eff-9a9a-596cc0a39220)
 
-
+________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 📊 Indicadores clave de Desempeño (KPI)
 
 | KPI | Descripción | Representación gráfica |
@@ -49,8 +49,19 @@ ________________________________________________________________________________
 | 💰 Importe medio del fraude | Importe medio de las transacciones marcadas | Statistics |
 | 📈 Tendencia del fraude | Detección de fraudes a lo largo del tiempo | Line Chart |
 
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 🛠️ Pila tecnológica
 
-![image]()
+| Capa | Tecnología | Finalidad |
+| Fuente de datos | Python + Kafka Producer | Simular transacciones en tiempo real |
+| Broker de mensajes | Apache Kafka (KRaft) | Transmisión de eventos de alto rendimiento |
+| Procesamiento | Apache Flink 1.17.1 | Procesamiento de flujos y detección de fraudes |
+| Almacenamiento | MySQL 8.0 | Persistencia de métricas y alertas |
+| Visualización | Grafana 10.x | Cuadros de mando en tiempo real |
+| Orquestación | Docker Compose | Infraestructura en contenedores |
+
+
+![image](https://github.com/user-attachments/assets/a3d7b514-4cd8-4637-956e-f8c405786306)
 
 ![image]()
 
