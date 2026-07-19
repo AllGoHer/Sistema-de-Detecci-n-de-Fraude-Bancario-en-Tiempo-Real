@@ -1,5 +1,8 @@
 # 🚨 Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
+![image](https://github.com/user-attachments/assets/635450ed-4a22-4267-b4aa-90dca6747fe7)
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## ✦ Arquitectura de Autoridad Propia.✦
 
 ***Un pipeline de Streaming con Apache Flink construido <mark>SIN JAVA</mark>. Potencia de Flink combinada con la simplicidad de <mark>Python</mark> y <mark>SQL</mark>.***
@@ -13,11 +16,6 @@ En la industria, Apache Flink es temido por su curva de aprendizaje base en Java
 
 El resultado es una arquitectura de datos moderna, altamente legible, mantenible y accesible para cualquier equipo de Data Engineering basado en Python/SQL, <mark>sin sacrificar el poder de cálculo de Flink</mark>. Demostrando así, que no necesitas un equipo de desarrolladores Java para mantener un sistema de detección de fraude en tiempo real de nivel empresarial; <mark>la lógica de negocio vive donde debe vivir: en SQL</mark>.
 
-
-________________________________________________________________________________________________________________________________________________________________________________________________________________
-![image](https://github.com/user-attachments/assets/635450ed-4a22-4267-b4aa-90dca6747fe7)
-
-
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 ![image](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![image](https://img.shields.io/badge/Apache%2520Flink-1.17.1-blue)
@@ -29,7 +27,6 @@ ________________________________________________________________________________
 ⚡**Canalización de datos en tiempo real con Apache Flink para la prevención de delitos financieros**
 
 
-El Presente proyecto es de autoria propia, creada de principio a fin co 
 
 
 
