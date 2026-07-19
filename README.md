@@ -22,18 +22,10 @@ ________________________________________________________________________________
 ![image](https://img.shields.io/badge/Grafana-10.x-green)
 ![image](https://img.shields.io/badge/Docker-24.x-blue)
 
-⚡**Canalización de datos en tiempo real con Apache Flink para la prevención de delitos financieros**
+**🎯 El reto: el fraude bancario en tiempo real**
 
+«Cada segundo se producen miles de transacciones fraudulentas en todo el mundo. El procesamiento por lotes tradicional detecta el fraude horas más tarde, cuando el dinero ya se ha perdido».
 
-
-
-
-
-
-
-
-
-
-Detección de transacciones bancarias fraudulentas en tiempo real mediante Apache Kafka, Apache Flink SQL, Docker, MySQL y Grafana.
+Este proyecto resuelve ese problema. Se trata de un canal de streaming de alta velocidad que detecta transacciones bancarias fraudulentas en tiempo real, utilizando Apache Flink como motor de procesamiento y Kafka como intermediario de eventos.
 
 
