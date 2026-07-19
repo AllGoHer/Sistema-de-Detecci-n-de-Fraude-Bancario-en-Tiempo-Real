@@ -76,7 +76,20 @@ ________________________________________________________________________________
 ![image](https://github.com/user-attachments/assets/cbd74f26-4484-4a40-936b-c984183e2211)
 
 ____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+## Guía de Implementación Paso a Paso
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+**Paso 1: Configuración de la Infraestructura (Docker)**
 
+Crear el archivo .
+
+Notas críticas de la configuración:
+[docker-compose.yml]()
+
+1. Se usa para evitar el error típico de MySQL 8.mysql_native_passwordPublic Key Retrieval is not allowed.
+   
+2. Se exponen variables de entorno natural de Flink () en lugar de para evitar problemas de análisis en Windows CMD.FLINK_TASK_MANAGER_MEMORYFLINK_PROPERTIES.
+   
+3. El puerto de MySQL se mapea al para no chocar con instalaciones locales.3307
 
 ![image]()
 
