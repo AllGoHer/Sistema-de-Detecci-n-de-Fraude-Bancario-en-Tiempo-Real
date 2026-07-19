@@ -38,6 +38,18 @@ ________________________________________________________________________________
 
 ![image](https://github.com/user-attachments/assets/e9b79576-6494-4eff-9a9a-596cc0a39220)
 
+
+## 📊 Indicadores clave de Desempeño (KPI)
+
+| KPI | Descripción | Representación gráfica |
+|-----|-------------|------------------------|
+| 🚨 Alertas de fraude | Total de transacciones sospechosas detectadas | Big Number |
+| ⚡Velocidad de transacciones | Número de transacciones por ventana de 10 segundos por usuario | Gauge Chart |
+| 👤 Principales autores de fraude | Usuarios con más alertas de fraude | Bar Chart |
+| 💰 Importe medio del fraude | Importe medio de las transacciones marcadas | Statistics |
+| 📈 Tendencia del fraude | Detección de fraudes a lo largo del tiempo | Line Chart |
+
+
 ![image]()
 
 ![image]()
