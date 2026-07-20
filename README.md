@@ -129,11 +129,116 @@ Crear el archivo .
 Notas críticas de la configuración:
 [docker-compose.yml]()
 
-1. Se usa para evitar el error típico de MySQL 8.mysql_native_passwordPublic Key Retrieval is not allowed.
+1. Se usa <MARK>mysql_native_password</MARK> para evitar el error <MARK>Public Key Retrieval is not allowed</MARK> típico de MySQL 8.
    
-2. Se exponen variables de entorno natural de Flink () en lugar de para evitar problemas de análisis en Windows CMD.FLINK_TASK_MANAGER_MEMORYFLINK_PROPERTIES.
+2. Se exponen variables de entorno nativas de Flink (<MARK>FLINK_TASK_MANAGER_MEMORY</MARK>) en lugar de <MARK>FLINK_PROPERTIES</MARK> para evitar problemas de parsing en Windows CMD.
    
-3. El puerto de MySQL se mapea al para no chocar con instalaciones locales.3307
+3. El puerto de MySQL se mapea al <MARK>3307</MARK> para no chocar con instalaciones locales.
+
+**Paso 2: Construcción de la Imagen de Apache Flink**
+
+Crear el archivo **flink/[Dockerfile]()**. Se añaden los conectores necesarios al classpath de Flink:
+
+* **<MARK>flink-sql-connector-kafka</MARK>:** Para leer de Kafka.
+* **<MARK>flink-connector-jdbc</MARK>:** Para escribir en bases de datos.
+* **<MARK>mysql-connector-j</MARK>:** Driver JDBC de MySQL.
+
+**Paso 3: El Simulador de Datos**
+
+En **producer/[main.py]()** se implementó un generador que:
+
+Usa <MARK>@dataclass</MARK> para estructuras de datos limpias y rápidas.
+Implementa un patrón de "Deriva de Usuario" (Drift): Cada 500 transacciones, un usuario cambia su comportamiento normal a fraude masivo.
+Configura <MARK>api_version=(2, 8, 0)</MARK> en el cliente de Kafka para evitar bloqueos de auto-descubrimiento en redes de Docker.
+
+**Paso 4: Despliegue del Ecosistema**
+
+Levantar la infraestructura desde la raíz del proyecto:
+
+bash:
+
+      docker compose up -d --build
+      
+Esperar a que los healthchecks de Kafka y MySQL estén en estado "healthy".
+
+**Paso 5: Preparación de la Base de Datos Destino**
+
+Flink requiere que la tabla destino exista antes de iniciar el Job. Se crea manualmente:
+
+sql:
+
+     CREATE TABLE fraud_metrics (
+         window_start DATETIME,
+         window_end DATETIME,
+         user_id VARCHAR(255),
+         tx_count BIGINT,
+         total_amount DOUBLE,
+         fraud_count BIGINT,
+         is_fraud_alert BOOLEAN
+     );
+
+**Paso 6: Lanzamiento del Job de Procesamiento en Flink**
+
+Se accede a la consola interactiva de Flink SQL:
+
+bash:
+
+      docker exec -it fraud_flink_jm /opt/flink/bin/sql-client.sh
+      
+Regla de oro de Windows: Para evitar que CMD elimine caracteres especiales como <MARK>&>/MARK> o procese mal los <MARK>;</MARK>, las sentencias SQL se pasaron formateadas en una sola línea por bloque.
+
+1. **Tabla Origen (Kafka):** Se define el esquema, el Watermark (tolerancia de 5 segundos) y el conector.
+
+2. **Tabla Destino (MySQL):** Se define el Sink JDBC. Importante: La URL queda limpia (<MARK>jdbc:mysql://mysql:3306/fraud_db</MARK>) gracias al paso de autenticación nativa.
+   
+3. **Ejecución:** Se lanza un <MARK>INSERT INTO ... SELECT</MARK> utilizando la función <MARK>TUMBLE</MARK> para agrupar los eventos en ventanas fijas de 10 segundos por usuario, calculando conteos, sumas y activando alertas si se superan los umbrales.
+
+
+**Paso 7: Creación del Dashboard en Tiempo Real (Grafana)**
+
+1. **Conexión**: Se configura la fuente de datos MySQL apuntando al host interno de Docker (<MARK>mysql:3306</MARK>).
+
+2. **Paneles Creados**:
+
+  * **KPIs (Formato Stat)**: Total de transacciones, Alertas de fraude (con fondo rojo condicional), Monto financiero en riesgo (formateado a USD).
+    
+  * **Serie Temporal (Time Series):** Trazabilidad del volumen de transacciones mapeando <MARK>window_start</MARK> al eje X.
+  * **Tabla de Investigación (Table):** Log detallado de las ventanas que dispararon alertas, ordenado descendentemente.
+  * **Streaming:** Se configuró el auto-refresh del dashboard cada <MARK>5s</MARK>.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+📋**Decisiones Técnicas y Solución de Problemas (Troubleshooting)**
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+Como Data Engineer, durante el desarrollo se tomaron las siguientes decisiones para garantizar la estabilidad del pipeline en entornos locales (Windows/Docker Desktop):
+
+**1. Problema de Memoria en Flink TaskManager:**
+
+  * Síntoma: El TaskManager moría constantemente (<MARK>NoResourceAvailableException</MARK> o <MARK>Connection refused</MARK> en el puerto 6123).
+  * Solución: Reducir la memoria estricta a <MARK>512m</MARK> y usar variables de entorno nativas de la imagen de Flink en lugar de parser manual de <MARK>FLINK_PROPERTIES</MARK>.
+    
+**2. Problema de Dialectos JDBC en Flink:**
+
+  * Síntoma: Al intentar usar ClickHouse/Postgres, Flink lanzaba <MARK>No dialect found</MARK>.
+  * Solución: Estandarizar en MySQL 8.0, cuyo dialecto está precompilado en el JAR oficial de <MARK>flink-connector-jdbc</MARK>.
+    
+**3. Problema de Parsing en Windows CMD:**
+
+  * Síntoma: Las URLs de conexión con <MARK>&</MARK> (ej: <MARK>?useSSL=false&allowPublicKey...</MARK>) se rompían al pegarlas en la consola de Flink, causando fallos silenciosos de conexión.
+  * Solución: Configurar MySQL con <MARK>mysql_native_password</MARK> para eliminar la necesidad de parámetros extra en la URL JDBC.
+
+**4. Bloqueo del Productor de Kafka:**
+
+  * Síntoma: El cliente de Python se quedaba colgado hasta 2 minutos al iniciar.
+  * Solución: Forzar la versión de la API de Kafka <MARK>api_version=(2, 8, 0)</MARK> para evitar el handshake de descubrimiento automático.
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 🧰Operación del Sistema
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+* Levantar el proyecto: docker compose up -d
+* Ver logs del productor: docker logs -f fraud_producer
+* Verificar datos en DB: docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "SELECT * FROM fraud_metrics ORDER BY window_start DESC LIMIT 10;"
+* Acceder a Flink UI: http://localhost:8081 (Para verificar que el Job esté en estado RUNNING).
+* Acceder a Grafana: http://localhost:3000 (admin / admin).
+* Detener el proyecto: docker compose down
 
 ![image]()
 
