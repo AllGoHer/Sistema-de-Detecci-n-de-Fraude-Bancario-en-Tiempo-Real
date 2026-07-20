@@ -114,22 +114,14 @@ ________________________________________________________________________________
 * **Visualización:** Grafana configurada con actualización automática cada 5 segundos sobre consultas SQL directas a MySQL.
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 ![image](https://github.com/user-attachments/assets/5fc3c202-71f8-47e7-862d-85cff8d733a4)
-___________________________________________________________________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 📚Estructura del Proyecto
 
 ![image](https://github.com/user-attachments/assets/cbd74f26-4484-4a40-936b-c984183e2211)
 
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
-## 📬 Contáctame
-
-![image](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)  https://www.linkedin.com/in/allan-gonzales-heredia-13a557b5/
-
-![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)   https://github.com/AllGoHer
-
-![image](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)   allgoher007@gmail.com
-________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## Guía de Implementación Paso a Paso
-____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________________________________________________________________________________
 **Paso 1: Configuración de la Infraestructura (Docker)**
 
 Crear el archivo .
@@ -176,3 +168,18 @@ Notas críticas de la configuración:
 ![image]()
 
 ![image]()
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 📬 Contáctame
+
+![image](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)  https://www.linkedin.com/in/allan-gonzales-heredia-13a557b5/
+
+![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)   https://github.com/AllGoHer
+
+![image](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)   allgoher007@gmail.com
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+**⭐ Muestra tu apoyo**
+
+Si este proyecto te ha ayudado a aprender sobre ingeniería de datos en tiempo real, ¡dale un ⭐ en GitHub!
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+Creado con ❤️ por <MARK>**ALLAN GONZALES**</MARK> | Ingeniero de datos | Especialista en datos en tiempo real
