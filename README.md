@@ -185,7 +185,7 @@ bash:
 
       docker exec -it fraud_flink_jm /opt/flink/bin/sql-client.sh
       
-Regla de oro de Windows: Para evitar que CMD elimine caracteres especiales como <MARK>&</MARK> o procese mal los <MARK>;</MARK>, las sentencias SQL se pasaron formateadas en una sola línea por bloque.
+Regla de oro de Windows: Para evitar que CMD elimine caracteres especiales como <MARK>&</MARK> o procese mal los <MARK>**;**</MARK>  , las sentencias SQL se pasaron formateadas en una sola línea por bloque.
 
 1. **Tabla Origen (Kafka):** Se define el esquema, el Watermark (tolerancia de 5 segundos) y el conector.
 
