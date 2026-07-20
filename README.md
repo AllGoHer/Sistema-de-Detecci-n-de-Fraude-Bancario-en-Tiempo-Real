@@ -36,7 +36,51 @@ ________________________________________________________________________________
 ![iamge](https://github.com/user-attachments/assets/b7205bcd-2f0f-4b99-b624-d8b2cb27a0f5)
 ![image](https://github.com/user-attachments/assets/43dc804e-ebed-45c9-96b5-1c3f220440ba)
 
-____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+### 🔧 Análisis en profundidad de la arquitectura
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+**1. Generación de datos (productor)**
+
+* Simula más de 1000 transacciones por segundo
+
+* Incorpora patrones de fraude:
+
+  * Picos de velocidad: > 100 transacciones en 10 segundos por parte de un mismo usuario
+
+  * Comportamiento de deriva: usuarios que cambian repentinamente de patrones
+
+  * Indicadores directos de fraude: para probar la detección
+
+* Utiliza 100 usuarios sintéticos con perfiles realistas
+
+**2. Procesamiento de flujos (Flink)**
+
+* Ventanas «tumbling»: ventanas de 10 segundos sin solapamiento
+
+* Procesamiento con estado: realiza un seguimiento del comportamiento del usuario a lo largo del tiempo
+
+* Reglas de detección de fraude:
+
+  * Cualquier transacción con <mark>is_fraud=1</mark> → ALERTA
+
+  * Cualquier usuario con > 100 transacciones/10 s → ALERTA
+
+* **Semántica Exactly-Once**: garantiza la coherencia de los datos
+
+**3. Almacenamiento y visualización**
+
+* MySQL: almacena métricas agregadas y alertas
+
+* Grafana: paneles en tiempo real con:
+
+  * Alertas de detección de fraude en directo
+
+  * Supervisión de la velocidad de las transacciones
+
+  * Análisis del comportamiento de los usuarios
+
+  * Tendencias históricas de fraude
+________________________________________________________________________________________________________________________________________________________________________________________________________________
 ![image](https://github.com/user-attachments/assets/e9b79576-6494-4eff-9a9a-596cc0a39220)
 
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
