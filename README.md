@@ -361,6 +361,62 @@ python:
  * KAFKA_BOOTSTRAP: Usa kafka:9092 en lugar de localhost porque asume que corre dentro de una red de Docker.
  * TPS_PER_THREAD: Matemática de concurrencia. Para lograr 1000 Transacciones Por Segundo (TPS) sin matar el procesador, divide el trabajo en 5 hilos ligeros, cada uno haciendo 200 TPS.
 
+**2. Modelo de Datos (La Estructura)**
+
+python:
+
+        @dataclass
+        class Transaction:
+            transaction_id: str
+            user_id: str
+            amount: float
+            event_type: str
+            is_fraud: int
+            city: str
+            device_type: str
+            epoch_ms: int
+
+* **Por qué <mark>dataclass</mark>**: En Streaming, la memoria y el rendimiento importan. Un <mark>dataclass</mark> es mucho más rápido y usa menos RAM que un diccionario normal (<mark>dict</mark>).
+* **<mark>epoch_ms</mark>**: *Concepto crítico de Flink*. Guarda el tiempo en milisegundos Unix. En streaming NO puedes usar horas locales (como "2026-07-14 10:00:00") porque las zonas horarias y el reloj de la máquina rompen los Watermarks. El tiempo Unix es la única fuente absoluta de verdad.
+
+**3. El Motor de Simulación (Lógica de Negocio)**
+
+python:
+
+        class FraudSimulator:
+            def __init__(self):
+                self.users = {f"USR-{i:05d}": {"city": "NYC", "drifting": False} for i in range(1, 101)}
+                self.count = 0
+
+
+* Crea 100 usuarios en memoria (<mark>USR-00001</mark> al <mark>USR-00100</mark>) usando dictionary comprehension.
+* **<mark>self.count</mark>**: Un contador global para saber en qué "instante" del tiempo vamos.
+
+python:
+
+        def get_transaction(self):
+            self.count += 1
+            # Simulación de drift (Fraude) cada 500 transacciones
+            is_drift = (self.count % 500) < 50 
+            user_id = "USR-00001" if is_drift else f"USR-{(self.count % 100) + 1:05d}"
+
+* **La línea más inteligente del código <mark>(self.count % 500) < 50</mark>**: Esto simula un "Concept Drift" (Deriva de Concepto). De cada 500 transacciones globales, 50 serán fraudulentas. Simula un ataque coordinado.
+* **Asignación de Usuario:** Si es fraude (<mark>is_drift=True</mark>), siempre ataca el mismo usuario (<mark>USR-00001</mark>). Esto es vital para que las ventanas de Flink detecten el "Velocity Burst" (ráfaga de velocidad). Si es normal, distribuye las transacciones equitativamente entre los otros 100 usuarios usando módulo matemático.
+
+python:
+
+        return Transaction(
+            transaction_id=str(uuid.uuid4()),
+            user_id=user_id,
+            amount=1500.0 if is_drift else round(random.uniform(10, 100), 2),
+            event_type="VELOCITY_BURST" if is_drift else "PURCHASE",
+            is_fraud=1 if is_drift else 0,
+            city=self.users[user_id]["city"],
+            device_type="Mobile App",
+            epoch_ms=int(time.time() * 1000)
+        )
+
+* Genera el evento final. Si es drift, el monto es alto y fijo ($1500) y el tipo de evento cambia para que Flink lo clasifique distinto.
 
 ![image]()
 
