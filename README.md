@@ -259,39 +259,7 @@ ________________________________________________________________________________
 
         docker compose down
 
-![image]()
 
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 📬 Contáctame
 
@@ -307,3 +275,100 @@ ________________________________________________________________________________
 Si este proyecto te ha ayudado a aprender sobre ingeniería de datos en tiempo real, ¡dale un ⭐ en GitHub!
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 Creado con ❤️ por <MARK>**ALLAN GONZALES**</MARK> | Ingeniero de datos | Especialista en datos en tiempo real
+
+===========================================================================================================================================================================================================================
+## DESARROLLO DEL PROYECTO
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+1. Creamos una carpeta del proyecto (Fraud_Detection_V2) en la terminal
+
+   bash: 
+
+         mkdir Fraud_Detection_V2
+
+Ahora creamos las subcarpetas.
+
+**Opción 1. Git Bash (Recomendado)** ✅
+
+Si estás en Git Bash (MINGW64), este comando funciona perfectamente.
+
+Git bash:
+
+           mkdir -p Fraud_Detection_V2/{producer,flink-sql,flink}
+
+
+**Opción 2. PowerShell**
+
+PowerShell no soporta la expansión con {}.
+
+Debes hacer:
+
+mkdir Fraud_Detection_V2
+
+mkdir Fraud_Detection_V2\producer
+mkdir Fraud_Detection_V2\flink-sql
+mkdir Fraud_Detection_V2\flink
+
+Resultado:
+
+![image](https://github.com/user-attachments/assets/f32d02bb-e66b-45ad-b99f-7a93748ccef9)
+
+
+2. Abrimos Visual Studio Code y lo vinculamos con la carpeta principal del proyecto (Fraud_Detection_V2) para crear los archivos con sus respectivos codigos.
+
+2.1. [Docker-compose.yml]()
+2.2. Producer/[producer.py]()
+2.2.1. 🧠 **Explicación del proposito de la creación del Producer**
+
+Este código es un Productor Kafka de alto rendimiento. Está diseñado para simular tráfico bancario masivo inyectando patrones de fraude, pero sin colapsar la máquina ni saturar los logs.
+
+1. Importaciones y Configuración Inicial
+
+python:
+
+        import json
+        import time
+        import uuid
+        import threading
+        import logging
+        import random 
+        from dataclasses import dataclass, asdict
+        from kafka import KafkaProducer
+
+
+* **Módulos estándar**: <mark>json</mark> (serialización), <mark>time</mark> (control de tiempo y generación de timestamps), <mark>uuid</mark> (generación de IDs únicos universales), <mark>threading</mark> (concurrencia para lograr alto volumen), <mark>random</mark> (generación de montos variables).
+* **<mark>dataclass y asdict</mark>**: Permite crear estructuras de datos limpias (como C# structs) sin escribir métodos __init__. asdict convierte ese objeto directamente en un diccionario de Python.
+* **<mark>KafkaProducer</mark>**: El cliente oficial de Kafka para Python.
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
+
+![image]()
