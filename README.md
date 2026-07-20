@@ -276,10 +276,9 @@ Si este proyecto te ha ayudado a aprender sobre ingeniería de datos en tiempo r
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 Creado con ❤️ por <MARK>**ALLAN GONZALES**</MARK> | Ingeniero de datos | Especialista en datos en tiempo real
 
-===========================================================================================================================================================================================================================
-## DESARROLLO DEL PROYECTO
+___________________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 🚀 DESARROLLO DEL PROYECTO
 ____________________________________________________________________________________________________________________________________________________________________________________________________________________________
-
 1. Creamos una carpeta del proyecto (Fraud_Detection_V2) en la terminal
 
    bash: 
@@ -317,14 +316,16 @@ Resultado:
 2. Abrimos Visual Studio Code y lo vinculamos con la carpeta principal del proyecto (Fraud_Detection_V2) para crear los archivos con sus respectivos codigos.
 
 2.1. [Docker-compose.yml]()
+
 2.2. Producer/[producer.py]()
+
 2.2.1. 🧠 **Explicación del proposito de la creación del Producer**
 
 Este código es un Productor Kafka de alto rendimiento. Está diseñado para simular tráfico bancario masivo inyectando patrones de fraude, pero sin colapsar la máquina ni saturar los logs.
 
 1. Importaciones y Configuración Inicial
 
-python:
+ python:
 
         import json
         import time
@@ -337,8 +338,30 @@ python:
 
 
 * **Módulos estándar**: <mark>json</mark> (serialización), <mark>time</mark> (control de tiempo y generación de timestamps), <mark>uuid</mark> (generación de IDs únicos universales), <mark>threading</mark> (concurrencia para lograr alto volumen), <mark>random</mark> (generación de montos variables).
-* **<mark>dataclass y asdict</mark>**: Permite crear estructuras de datos limpias (como C# structs) sin escribir métodos __init__. asdict convierte ese objeto directamente en un diccionario de Python.
+  
+* **<mark>dataclass y asdict</mark>**: Permite crear estructuras de datos limpias (como C# structs) sin escribir métodos <mark>__init__. asdict</mark> convierte ese objeto directamente en un diccionario de Python.
+  
 * **<mark>KafkaProducer</mark>**: El cliente oficial de Kafka para Python.
+
+
+python:
+
+        logging.basicConfig(level=logging.ERROR)
+        logger = logging.getLogger(__name__)
+
+* **Nivel ERROR**: Decisión de Senior. Si dejas el nivel por defecto (INFO o DEBUG), al imprimir 1000 transacciones por segundo, la consola de Windows o Docker se va a congelar. Silenciando todo excepto los errores, garantizas rendimiento puro.
+
+
+python:
+
+        KAFKA_BOOTSTRAP = "kafka:9092"
+        TOPIC = "bank_transactions"
+        TPS_PER_THREAD = 200 # 5 hilos * 200 = 1000 TPS
+        
+ * KAFKA_BOOTSTRAP: Usa kafka:9092 en lugar de localhost porque asume que corre dentro de una red de Docker.
+ * TPS_PER_THREAD: Matemática de concurrencia. Para lograr 1000 Transacciones Por Segundo (TPS) sin matar el procesador, divide el trabajo en 5 hilos ligeros, cada uno haciendo 200 TPS.
+
+
 ![image]()
 
 ![image]()
