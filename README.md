@@ -1,6 +1,6 @@
 # 🚨 Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
-## ✦ Arquitectura de Autoridad Propia.✦
+## ✦ Arquitectura de Autoría Propia.✦
 
 ***Un pipeline de Streaming con Apache Flink construido <mark>SIN JAVA</mark>. Potencia de Flink combinada con la simplicidad de <mark>Python</mark> y <mark>SQL</mark>.***
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
