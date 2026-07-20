@@ -122,12 +122,12 @@ ________________________________________________________________________________
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 📬 Contáctame
 
-![image](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)
+![image](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)  https://www.linkedin.com/in/allan-gonzales-heredia-13a557b5/
 
-![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)   https://github.com/AllGoHer
 
-![image](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)
-____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+![image](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)   allgoher007@gmail.com
+________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## Guía de Implementación Paso a Paso
 ____________________________________________________________________________________________________________________________________________________________________________________________________________________________
 **Paso 1: Configuración de la Infraestructura (Docker)**
