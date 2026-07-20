@@ -112,8 +112,8 @@ ________________________________________________________________________________
 * **Motor de Procesamiento:** Apache Flink 1.17.1. Se utiliza la API de Flink SQL para definir Marcas de agua, Hora del evento y ventanas Tumble de 10 segundos sin escribir código Java/Scala.
 * **Alojamiento (Sink):** MySQL 8.0. (Decisión técnica: Se optó por MySQL sobre PostgreSQL/ClickHouse porque el conector JDBC nativo de Flink lo permite fuera de la caja en Windows, evitando errores de dialectos o dependencias faltantes).
 * **Visualización:** Grafana configurada con actualización automática cada 5 segundos sobre consultas SQL directas a MySQL.
-___________________________________________________________________________________________________________________________________________________________________________________________________________________________
-![image](https://github.com/user-attachments/assets/a3d7b514-4cd8-4637-956e-f8c405786306)
+________________________________________________________________________________________________________________________________________________________________________________________________________________
+![image](https://github.com/user-attachments/assets/5fc3c202-71f8-47e7-862d-85cff8d733a4)
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 📚Estructura del Proyecto
 
