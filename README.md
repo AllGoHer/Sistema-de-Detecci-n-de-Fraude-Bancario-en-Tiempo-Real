@@ -234,16 +234,19 @@ ________________________________________________________________________________
 ## 🧰Operación del Sistema
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 * Levantar el proyecto.
+
   bash:
 
         docker compose up -d
   
 * Ver logs del productor.
-  bash:
+
+   bash:
 
         docker logs -f fraud_producer
   
 * Verificar datos en DB.
+
   bash:
 
         docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "SELECT * FROM fraud_metrics ORDER BY window_start DESC LIMIT 10;"
@@ -251,6 +254,7 @@ ________________________________________________________________________________
 * Acceder a Flink UI: http://localhost:8081 (Para verificar que el Job esté en estado RUNNING).
 * Acceder a Grafana: http://localhost:3000 (admin / admin).
 * Detener el proyecto.
+
   bash:
 
         docker compose down
