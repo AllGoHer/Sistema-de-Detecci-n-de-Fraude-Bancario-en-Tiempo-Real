@@ -206,7 +206,7 @@ Regla de oro de Windows: Para evitar que CMD elimine caracteres especiales como 
   * **Tabla de Investigación (Table):** Log detallado de las ventanas que dispararon alertas, ordenado descendentemente.
   * **Streaming:** Se configuró el auto-refresh del dashboard cada <MARK>5s</MARK>.
 _______________________________________________________________________________________________________________________________________________________________________________________________________________
-📋**Decisiones Técnicas y Solución de Problemas (Troubleshooting)**
+## 📋Decisiones Técnicas y Solución de Problemas (Troubleshooting)
 _______________________________________________________________________________________________________________________________________________________________________________________________________________
 Como Data Engineer, durante el desarrollo se tomaron las siguientes decisiones para garantizar la estabilidad del pipeline en entornos locales (Windows/Docker Desktop):
 
@@ -233,12 +233,27 @@ Como Data Engineer, durante el desarrollo se tomaron las siguientes decisiones p
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 🧰Operación del Sistema
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
-* Levantar el proyecto: docker compose up -d
-* Ver logs del productor: docker logs -f fraud_producer
-* Verificar datos en DB: docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "SELECT * FROM fraud_metrics ORDER BY window_start DESC LIMIT 10;"
+* Levantar el proyecto.
+  bash:
+
+        docker compose up -d
+  
+* Ver logs del productor.
+  bash:
+
+        docker logs -f fraud_producer
+  
+* Verificar datos en DB.
+  bash:
+
+        docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "SELECT * FROM fraud_metrics ORDER BY window_start DESC LIMIT 10;"
+  
 * Acceder a Flink UI: http://localhost:8081 (Para verificar que el Job esté en estado RUNNING).
 * Acceder a Grafana: http://localhost:3000 (admin / admin).
-* Detener el proyecto: docker compose down
+* Detener el proyecto.
+  bash:
+
+        docker compose down
 
 ![image]()
 
