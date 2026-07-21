@@ -418,6 +418,68 @@ python:
 
 * Genera el evento final. Si es drift, el monto es alto y fijo ($1500) y el tipo de evento cambia para que Flink lo clasifique distinto.
 
+**4. El Hilo Productor (Concurrencia y Kafka)**
+
+python:
+
+        def producer_thread(simulator, thread_id):
+            try:
+                print(f"🔗 Hilo {thread_id} conectando a Kafka...")
+                producer = KafkaProducer(
+                    bootstrap_servers=KAFKA_BOOTSTRAP,
+                    api_version=(2, 8, 0), 
+                    request_timeout_ms=5000,
+                    value_serializer=lambda v: json.dumps(asdict(v)).encode('utf-8')
+                )
+
+* **<mark>try/except</mark>:** Si Kafka se cae, el hilo muere gracefulmente (con elegancia) sin crashear todo el script de Python.
+* **<mark>api_version=(2, 8, 0)</mark>: Solución a un bug famoso de Python/Kafka en Docker. Si no pones esto, el cliente intenta "adivinar" la versión del broker haciendo ping de red, lo cual bloquea el hilo hasta por 2 minutos.
+* **<mark>value_serializer=lambda v: ...</mark>:** Esta línea hace 3 cosas en milisegundos: Convierte el <mark>dataclass</mark> a diccionio (<mark>asdict(v)</mark>), lo pasa a string JSON (<mark>json.dumps</mark>) y lo convierte a bytes (<mark>encode('utf-8')</mark>), que es lo único que Kafka acepta.
+
+python:
+
+        while True:
+            tx = simulator.get_transaction()
+            producer.send(TOPIC, key=tx.user_id.encode('utf-8'), value=tx)
+            time.sleep(1.0 / TPS_PER_THREAD)
+
+* **Bucle infinito**: Corre para siempre (streaming continuo).
+* **<mark>key=tx.user_id...</mark>**: Patrón Senior en Kafka. Al usar el <mark>user_id</mark> como "Key" de la partición, le garantizas a Flink que todos los eventos de <mark>USR-00001</mark> irán a la misma partición de Kafka y llegarán en orden estricto. Sin esto, Flink no podría hacer ventanas temporales correctamente.
+* **<mark>time.sleep(1.0 / 200)</mark>**: Pausa de 0.005 segundos. Es el "throttler" (regulador) que frena al hilo para no enviar 1 millón de mensajes por segundo y colapsar la red.
+
+  
+**5. El Orquestador Principal (Main)**
+
+python:
+
+        if __name__ == "__main__":
+            print("🚀 Iniciando Producer Senior (1000 TPS target)...")
+            time.sleep(5) # Espera Kafka
+
+* **<mark>time.sleep(5)</mark>**: Good Practice en contenedores. Cuando Docker levanta este script, Kafka aún no ha terminado de inicializar. Si intentas conectar antes, fallará. Esta pausa garantiza que el broker esté listo.
+
+
+python:
+
+        simulator = FraudSimulator()
+        threads = [threading.Thread(target=producer_thread, args=(simulator, i), daemon=True) for i in range(5)]
+    
+        for t in threads: 
+            t.start()
+
+*Crea una sola instancia del simulador (<mark>FraudSimulator</mark>) y la comparte entre los 5 hilos. Esto permite que el contador <mark>self.count</mark> sea global y el patrón de "Drift" funcione correctamente sincronizado.
+* **daemon=True**: Le dice a Python que estos hilos son "sirvientes". Si el proceso principal de Python se cierra (ej. con Ctrl+C), estos hilos se matan automáticamente, evitando procesos huérfanos en tu sistema operativo.
+
+python:
+
+        try:
+            while True: time.sleep(1)
+        except KeyboardInterrupt:
+            print("🛑 Detenido.")
+
+* Mantiene el hilo principal vivo infinitamente. El <mark>except KeyboardInterrupt</mark> captura el <mark>Ctrl+C</mark> para que puedas detener el programa limpiamente por consola.
+
+
 ![image]()
 
 ![image]()
