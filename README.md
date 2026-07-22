@@ -531,31 +531,138 @@ cmd:
 
      docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "CREATE TABLE fraud_metrics (window_start DATETIME, window_end DATETIME, user_id VARCHAR(255), tx_count BIGINT, total_amount DOUBLE, fraud_count BIGINT,      is_fraud_alert BOOLEAN);"
 
+
+![image](https://github.com/user-attachments/assets/e67a255b-adc8-448f-9785-f2ea83701ae6)
+
+
  "El silencio en la consola significa éxito en DBA".
 
 🎥 https://youtu.be/8tYI4vryhoE
 
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+**FASE 3: Ingesta de Datos (El Productor)**
+
+Abrimos una nueva ventana en nuestra terminal
 
 
-![image]()
+Ahora arrancamos el productor de Python. Está configurado con 5 hilos para inyectar 1000 transacciones por segundo, incluyendo un patrón de 'concept drift' que simula ataques de velocidad cada 500 transacciones."
 
-![image]()
+cmd:
 
-![image]()
+     docker logs -f fraud_producer
 
-![image]()
 
-![image]()
+![image](https://github.com/user-attachments/assets/36a51870-0f54-4fa4-a908-26a52575e31a)
 
-![image]()
+🎥  https://youtu.be/Vw6OTQdIhT0
 
-![image]()
+* Verificar que el producer está enviando datos a Kafka
+  
+bash:
 
-![image]()
+      docker exec -it fraud_kafka bash -c "/opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic bank_transactions --from-beginning --max-messages 10"
 
-![image]()
 
-![image]()
+![image](https://github.com/user-attachments/assets/e44f0edf-babc-4401-a0ae-b775be8b21ee)
+
+🎥 https://youtu.be/bWO5yenXcEE
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+**FASE 4: Procesamiento en Tiempo Real (Apache Flink SQL)**
+
+Abrimos una tercera ventana en la terminal.
+
+Aquí es donde entra Apache Flink. Vamos a entrar a la consola SQL y definir nuestro pipeline de procesamiento. 
+
+Por un tema de compatibilidad con el parser de Windows, utilizo sentencias formateadas en una sola línea.
+
+**Paso 4.1: Entrar a Flink**
+
+cmd:
+
+     docker exec -it fraud_flink_jm /opt/flink/bin/sql-client.sh
+
+![image](https://github.com/user-attachments/assets/e8a2fe7a-151c-4edd-9aeb-d9df5ab67249)
+
+🎥 https://youtu.be/CSQpx6z07xY
+
+
+**Paso 4.2: Crear Tabla Origen Kafka**
+
+sql:
+
+     CREATE TABLE kafka_transactions (transaction_id STRING, user_id STRING, amount DOUBLE, event_type STRING, is_fraud INT, city STRING, device_type STRING, epoch_ms BIGINT, event_time AS TO_TIMESTAMP_LTZ(epoch_ms, 3),      WATERMARK FOR event_time AS event_time - INTERVAL '5' SECONDS) WITH ('connector' = 'kafka', 'topic' = 'bank_transactions', 'properties.bootstrap.servers' = 'kafka:9092', 'properties.group.id' = 'flink_video_demo',       'scan.startup.mode' = 'latest-offset', 'format' = 'json');
+
+
+Aquí definimos el Watermark de 5 segundos y el Event Time basado en el epoch_milisegundos.
+
+![image](https://github.com/user-attachments/assets/a2f92205-da2b-4731-8951-8f0bdef745ab)
+
+🎥 https://youtu.be/NoHcCMSSX9M
+
+**Paso 4.3: Crear Tabla Sink MySQL**
+
+sql:
+
+     CREATE TABLE fraud_metrics (window_start TIMESTAMP(3), window_end TIMESTAMP(3), user_id STRING, tx_count BIGINT, total_amount DOUBLE, fraud_count BIGINT, is_fraud_alert BOOLEAN) WITH ('connector' = 'jdbc', 'url' =       'jdbc:mysql://mysql:3306/fraud_db', 'table-name' = 'fraud_metrics', 'username' = 'admin', 'password' = 'admin', 'sink.buffer-flush.max-rows' = '100', 'sink.buffer-flush.interval' = '2s');
+
+
+El Sink JDBC apunta a MySQL con un flush cada 2 segundos o cada 100 filas.
+
+![image](https://github.com/user-attachments/assets/57d69ed3-1eb1-40e8-a774-6c53d14d0bf9)
+
+
+🎥 https://youtu.be/NoHcCMSSX9M
+
+**Paso 4.4: Configurar Modo Detached**
+
+sql:
+
+     SET 'execution.attached' = 'false';
+
+![image](https://github.com/user-attachments/assets/8837bff7-2e25-4e32-ae0a-fca3d790bbe6)
+
+
+
+**Paso 4.5: Lanzar el Job de Ventanas**
+
+sql:
+
+     INSERT INTO fraud_metrics SELECT window_start, window_end, user_id, COUNT(*) as tx_count, SUM(amount) as total_amount, SUM(is_fraud) as fraud_count, CASE WHEN SUM(is_fraud) > 100 OR COUNT(*) > 100 THEN TRUE ELSE         FALSE END as is_fraud_alert FROM TABLE(TUMBLE(TABLE kafka_transactions, DESCRIPTOR(event_time), INTERVAL '10' SECONDS)) GROUP BY window_start, window_end, user_id;
+
+En cuanto presiones Enter, verás: [INFO] Submitting job with JobID: a1b2c3d4... Inmediatamente, cambia de pestaña en tu navegador y vé a Flink UI escribiendo localhost:8081. 
+
+🎥 https://youtu.be/iT--MEDkOmg
+
+
+![image](https://github.com/user-attachments/assets/bc2ab010-78f4-4de0-8a46-569ba3184f82)
+
+
+![image](https://github.com/user-attachments/assets/181f02ab-c3e7-480a-8372-60ec8263a4a9)
+
+
+El Job se envió al clúster y pueden ver aquí en la Web UI que el estado cambia instantáneamente a RUNNING con un paralelismo de 1.
+
+🎥 https://youtu.be/kJTJNbauCJc
+
+
+Luego, escribe <mark>QUIT;</mark> en la consola de Flink para salir limpiamente.
+
+
+
+
+
+
+
+
+
+🎥https://youtu.be/xd1eOFUEw1w
+
+
+
+
+
+
+
 
 ![image]()
 
