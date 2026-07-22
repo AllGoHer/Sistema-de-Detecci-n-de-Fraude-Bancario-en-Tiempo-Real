@@ -479,8 +479,35 @@ python:
 
 * Mantiene el hilo principal vivo infinitamente. El <mark>except KeyboardInterrupt</mark> captura el <mark>Ctrl+C</mark> para que puedas detener el programa limpiamente por consola.
 
+2.3. producer/[Dockerfile]()
+2.4. producer/[Requirements.txt]()
+2.5. flink/[Dockerfile]()
+2.6. flink-sql/[pipeline.sql]()
 
-![image]()
+3. Abrimos el Docker Destktop y, empezamos la ejecucion del proyecto.
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+## 🚀 EJECUCIÓN DEL PROYECTO
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+**FASE 1: Levantamiento Limpio de Infraestructura**
+
+Primero, limpiamos cualquier estado anterior para garantizar un despliegue desde cero, y levantamos la infraestructura compuesta por Kafka, MySQL, Flink y Grafana.
+
+cmd:
+
+     cd C:\Users\User\Fraud_Detection_V2
+     docker compose down -v
+
+<MARK>NOTA:</MARK> Espera a que termine de borrar.
+
+cmd:
+
+     docker compose up -d --build
+
+<MARK>NOTA:</MARK>Espera a que termine de descargar/construir. No avances hasta que veas el prompt de nuevo.
+
+
+![video](https://github.com/user-attachments/assets/1963bdde-9709-41e9-a39b-d2cc773e5a0c)
 
 ![image]()
 
