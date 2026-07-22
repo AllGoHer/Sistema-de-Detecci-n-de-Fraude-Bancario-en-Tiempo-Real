@@ -586,7 +586,7 @@ cmd:
 
 ![image](https://github.com/user-attachments/assets/e8a2fe7a-151c-4edd-9aeb-d9df5ab67249)
 
-🎥 https://youtu.be/CSQpx6z07xY
+
 
 
 **Paso 4.2: Crear Tabla Origen Kafka**
@@ -600,7 +600,7 @@ Aquí definimos el Watermark de 5 segundos y el Event Time basado en el epoch_mi
 
 ![image](https://github.com/user-attachments/assets/a2f92205-da2b-4731-8951-8f0bdef745ab)
 
-🎥 https://youtu.be/NoHcCMSSX9M
+🎥 https://youtu.be/CSQpx6z07xY
 
 **Paso 4.3: Crear Tabla Sink MySQL**
 
@@ -613,8 +613,9 @@ El Sink JDBC apunta a MySQL con un flush cada 2 segundos o cada 100 filas.
 
 ![image](https://github.com/user-attachments/assets/57d69ed3-1eb1-40e8-a774-6c53d14d0bf9)
 
-
 🎥 https://youtu.be/NoHcCMSSX9M
+
+
 
 **Paso 4.4: Configurar Modo Detached**
 
