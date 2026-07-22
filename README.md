@@ -509,6 +509,18 @@ cmd:
 
 🎥 https://youtu.be/4MBYGHRQPSY
 
+* Comando de verificación:
+
+cmd:
+
+     docker compose ps
+
+![image](https://github.com/user-attachments/assets/ae545c80-825a-4f8e-9edb-1e87b9f51d4a)
+
+Como pueden ver, los healthchecks de Kafka y MySQL pasaron exitosamente. La infraestructura está lista.
+
+🎥 https://youtu.be/TN3_Jx3wzD0
+
 
 
 
