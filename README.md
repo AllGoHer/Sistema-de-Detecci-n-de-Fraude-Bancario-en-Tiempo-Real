@@ -507,7 +507,7 @@ cmd:
 <MARK>NOTA:</MARK>Espera a que termine de descargar/construir. No avances hasta que veas el prompt de nuevo.
 
 
-![video](https://github.com/user-attachments/assets/1963bdde-9709-41e9-a39b-d2cc773e5a0c)
+🎥 ![video](https://youtu.be/4MBYGHRQPSY)
 
 ![image]()
 
