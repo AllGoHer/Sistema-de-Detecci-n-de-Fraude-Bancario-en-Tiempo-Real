@@ -680,18 +680,123 @@ Finalmente, exponemos estos datos a los equipos de negocio mediante un dashboard
 
 En el navegador, en una pestaña nueva.
 
-1.	Ve a http://localhost:3000 (Loguéate si es necesario).
+**Paso 1**.	Ve a http://localhost:3000 (Loguéate si es necesario).
    
-2.	Conexión: Configuramos la conexión directa a MySQL usando el nombre interno del contenedor para evitar problemas de red.
+**Paso 2**.	Conexión: Configuramos la conexión directa a MySQL usando el nombre interno del contenedor para evitar problemas de red.
    
   o	Connections -> Add data source -> MySQL.
+  
   o	Host: mysql:3306
+  
   o	Database: fraud_db
+  
   o	User/Pass: admin / admin
-  o	Clic en Save & test. 
+  
+  o	Desplázate hacia abajo y haz Clic en Save & test. 
+
+**Paso 3. Crear el Dashboard de Fraude**
+   
+En el menú izquierdo, ve a Dashboards, haz clic en New Dashboard y luego en Add panel.
+
+Vamos a crear 7 KPIs
+
+**1. 🚨 Alertas de Fraude (Big Number)**
+
+Muestra el total de ventanas de 10 segundos que dispararon la alerta.
+
+  * Formato (Arriba a la derecha): Stat
+  * Color Mode (Izquierda): Background (Ponlo en Rojo intenso en Thresholds)
+
+SQL:
+
+     SELECT COUNT(*) FROM fraud_metrics WHERE is_fraud_alert = TRUE;
+     
+**2. 👤 Usuarios Afectados (Big Number)**
+
+Cuenta cuántos usuarios únicos han tenido un comportamiento anómalo.
+
+  * Formato: Stat
+
+SQL:
+
+     SELECT COUNT(DISTINCT user_id) FROM fraud_metrics WHERE is_fraud_alert = TRUE;
+     
+**3. 💰 Monto Promedio de Fraude (Big Number)**
+
+Muestra el promedio de dinero movido en las ventanas que fueron marcadas como fraude.
+
+  * Formato: Stat
+  * Standard Options -> Unit (Izquierda): Selecciona Currency -> USD
+
+SQL:
+
+     SELECT AVG(total_amount) FROM fraud_metrics WHERE is_fraud_alert = TRUE;
+     
+**4. ⚡ Velocidad Máxima (Gauge Chart)**
+
+Este es espectacular. Muestra el récord máximo de transacciones acumuladas en una sola ventana de 10 segundos. Si pasa de 100, la aguja se pone en rojo.
+
+  * Formato: Gauge
+  * Izquierda (Standard options):
+
+SQL:
+
+     SELECT MAX(tx_count) FROM fraud_metrics;
+     
+**5. 📈 Tendencia de Fraudes (Line Chart)**
+
+Muestra cómo evoluciona la cantidad de fraudes detectados en el tiempo (cada punto es una ventana de 10s).
+
+Formato: Time series
+
+(Nota: Usamos UNIX_TIMESTAMP porque Grafana lo necesita para el eje X temporal)
+
+SQL:
+
+     SELECT 
+       UNIX_TIMESTAMP(window_start) as time_sec, 
+       SUM(fraud_count) as value 
+     FROM fraud_metrics 
+     WHERE is_fraud_alert = TRUE 
+     GROUP BY window_start 
+     ORDER BY window_start ASC;
 
 
+**6. 🎯 Top Usuarios Sospechosos (Bar Chart)**
 
+Un ranking de los 5 usuarios que más fraudes han generado. Ideal para el equipo de seguridad.
+
+Formato: Bar chart
+
+SQL:
+
+     SELECT 
+       user_id as metric, 
+       SUM(fraud_count) as value 
+     FROM fraud_metrics 
+     WHERE is_fraud_alert = TRUE 
+     GROUP BY user_id 
+     ORDER BY value DESC 
+     LIMIT 5;
+
+
+**7. 🔥 Distribución de Riesgo / Volumen (Pie Chart)**
+
+Como no tenemos el fraud_type en la tabla final, haremos un Pie Chart que compare el "Pesos Muertos" (Ventanas limpias) contra las "Ventanas Críticas". A los reclutadores les encanta ver proporciones.
+
+  * Formato: Pie chart
+
+SQL:
+
+     SELECT 
+       CASE 
+         WHEN is_fraud_alert = TRUE THEN '🚨 Ventanas Críticas' 
+         ELSE '✅ Tráfico Normal' 
+       END as metric, 
+       COUNT(*) as value 
+     FROM fraud_metrics 
+     GROUP BY metric;
+   
 
 
 
