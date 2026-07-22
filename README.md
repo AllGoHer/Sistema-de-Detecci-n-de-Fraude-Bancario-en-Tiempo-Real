@@ -480,8 +480,11 @@ python:
 * Mantiene el hilo principal vivo infinitamente. El <mark>except KeyboardInterrupt</mark> captura el <mark>Ctrl+C</mark> para que puedas detener el programa limpiamente por consola.
 
 2.3. producer/[Dockerfile]()
+
 2.4. producer/[Requirements.txt]()
+
 2.5. flink/[Dockerfile]()
+
 2.6. flink-sql/[pipeline.sql]()
 
 3. Abrimos el Docker Destktop y, empezamos la ejecucion del proyecto.
@@ -554,7 +557,7 @@ cmd:
 
 ![image](https://github.com/user-attachments/assets/36a51870-0f54-4fa4-a908-26a52575e31a)
 
-🎥  https://youtu.be/Vw6OTQdIhT0
+🎥  https://youtu.be/B7lif0c-u_8
 
 * Verificar que el producer está enviando datos a Kafka
   
