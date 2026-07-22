@@ -522,8 +522,18 @@ Como pueden ver, los healthchecks de Kafka y MySQL pasaron exitosamente. La infr
 
 🎥 https://youtu.be/TN3_Jx3wzD0
 
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________
+**FASE 2: Preparación de la Base de Datos Destino**
 
+Apache Flink requiere que la tabla destino exista antes de lanzar el Job. Creamos la tabla en MySQL con los tipos de datos exactos que espera nuestra ventana temporal.
 
+cmd:
+
+     docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "CREATE TABLE fraud_metrics (window_start DATETIME, window_end DATETIME, user_id VARCHAR(255), tx_count BIGINT, total_amount DOUBLE, fraud_count BIGINT,      is_fraud_alert BOOLEAN);"
+
+ "El silencio en la consola significa éxito en DBA".
+
+🎥 https://youtu.be/8tYI4vryhoE
 
 
 
