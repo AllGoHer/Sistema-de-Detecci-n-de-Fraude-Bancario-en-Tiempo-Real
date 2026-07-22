@@ -652,23 +652,51 @@ El Job se envió al clúster y pueden ver aquí en la Web UI que el estado cambi
 Luego, escribe <mark>QUIT;</mark> en la consola de Flink para salir limpiamente.
 
 
+**FASE 5: Validación de Persistencia (La Prueba de Fuego)**
+
+Abrimos una cuarta pestaña en el terminal.
 
 
+Para demostrar que el pipeline es end-to-end y no solo un proceso en memoria, vamos a consultar la base de datos directamente. Deben aparecer las ventanas cerradas de 10 segundos.
+
+cmd:
+
+     docker exec -it fraud_mysql mysql -uadmin -padmin fraud_db -e "SELECT * FROM fraud_metrics ORDER BY window_start DESC LIMIT 10;"
 
 
+![image](https://github.com/user-attachments/assets/01799852-e78c-49cc-a256-228d15e33fa3)
 
 
+Flink tomó los miles de eventos sueltos de Kafka, los agrupó en ventanas de 10 segundos por usuario, y las insertó limpiamente en MySQL.
 
 🎥https://youtu.be/xd1eOFUEw1w
 
 
+**FASE 6: Visualización de Negocio (Grafana)**
+
+Finalmente, exponemos estos datos a los equipos de negocio mediante un dashboard de streaming en Grafana.
+
+
+
+En el navegador, en una pestaña nueva.
+
+1.	Ve a http://localhost:3000 (Loguéate si es necesario).
+   
+2.	Conexión: Configuramos la conexión directa a MySQL usando el nombre interno del contenedor para evitar problemas de red.
+   
+  o	Connections -> Add data source -> MySQL.
+  o	Host: mysql:3306
+  o	Database: fraud_db
+  o	User/Pass: admin / admin
+  o	Clic en Save & test. 
 
 
 
 
 
 
-![image]()
+
+
 
 ![image]()
 
