@@ -685,20 +685,42 @@ En el navegador, en una pestaña nueva.
 **Paso 2**.	Conexión: Configuramos la conexión directa a MySQL usando el nombre interno del contenedor para evitar problemas de red.
    
   o	Connections -> Add data source -> MySQL.
+
+  ![image](https://github.com/user-attachments/assets/cd0242c7-34fa-4204-a357-a5a1fcc94c6d)
   
   o	Host: mysql:3306
   
   o	Database: fraud_db
   
   o	User/Pass: admin / admin
+
+
+  ![image](https://github.com/user-attachments/assets/8747dbe7-d753-415b-aa47-b7479737f512)
+
   
   o	Desplázate hacia abajo y haz Clic en Save & test. 
 
-**Paso 3. Crear el Dashboard de Fraude**
-   
-En el menú izquierdo, ve a Dashboards, haz clic en New Dashboard y luego en Add panel.
+   ![image](https://github.com/user-attachments/assets/3eac2205-a5d6-494f-92fd-4493853509f3)
 
-Vamos a crear 7 KPIs
+   ![image](https://github.com/user-attachments/assets/80ac9ca6-cd48-451e-8558-f53cb9023698)
+
+**Paso 3. Crear el Dashboard de Fraude**
+
+Crear el Lienzo (Dashboard)
+
+
+1.	En el menú izquierdo, haz clic en Dashboards.
+   
+2.	Arriba a la derecha, haz clic en el botón New Dashboard (Nuevo panel de control).
+   
+3.	Se abrirá una pantalla en blanco. Haz clic en el botón azul Add panel (Añadir panel).
+
+Ahora estamos dentro del editor de paneles. Fíjate que abajo hay una pestaña que dice "Query". Ahí es donde va el código SQL.
+
+![image](https://github.com/user-attachments/assets/d73309ee-e297-47ce-953d-f8a3ea7455d0)
+
+_________________________________________________________________________________________________________________________________________
+Ahora vamos a crear 7 KPIs
 
 **1. 🚨 Alertas de Fraude (Big Number)**
 
@@ -707,9 +729,16 @@ Muestra el total de ventanas de 10 segundos que dispararon la alerta.
   * Formato (Arriba a la derecha): Stat
   * Color Mode (Izquierda): Background (Ponlo en Rojo intenso en Thresholds)
 
+![image](https://github.com/user-attachments/assets/929bc8e7-314c-45e7-8742-2858f1230be9)
+
+
 SQL:
 
      SELECT COUNT(*) FROM fraud_metrics WHERE is_fraud_alert = TRUE;
+
+![image](https://github.com/user-attachments/assets/04685ae3-6f60-4b41-bde0-2eaa10460fd4)
+
+________________________________________________________________________________________________________________________________________
      
 **2. 👤 Usuarios Afectados (Big Number)**
 
@@ -720,28 +749,38 @@ Cuenta cuántos usuarios únicos han tenido un comportamiento anómalo.
 SQL:
 
      SELECT COUNT(DISTINCT user_id) FROM fraud_metrics WHERE is_fraud_alert = TRUE;
-     
+
+ ![image](https://github.com/user-attachments/assets/f0ffcee2-cdc9-4600-bba5-4a51b8b761c9)
+
+ _______________________________________________________________________________________________________________________________________
+
 **3. 💰 Monto Promedio de Fraude (Big Number)**
 
 Muestra el promedio de dinero movido en las ventanas que fueron marcadas como fraude.
 
   * Formato: Stat
-  * Standard Options -> Unit (Izquierda): Selecciona Currency -> USD
-
+  
 SQL:
 
      SELECT AVG(total_amount) FROM fraud_metrics WHERE is_fraud_alert = TRUE;
+
+![image](https://github.com/user-attachments/assets/8d7dd76e-e541-4c7f-b348-b284c25f0009)
+
+__________________________________________________________________________________________________________________________________________________________
      
 **4. ⚡ Velocidad Máxima (Gauge Chart)**
 
 Este es espectacular. Muestra el récord máximo de transacciones acumuladas en una sola ventana de 10 segundos. Si pasa de 100, la aguja se pone en rojo.
 
   * Formato: Gauge
-  * Izquierda (Standard options):
-
+  
 SQL:
 
      SELECT MAX(tx_count) FROM fraud_metrics;
+
+![image](https://github.com/user-attachments/assets/b2d83150-0a99-4dcf-8aad-847ed3ebac74)
+
+___________________________________________________________________________________________________________________________________________________________
      
 **5. 📈 Tendencia de Fraudes (Line Chart)**
 
@@ -749,7 +788,7 @@ Muestra cómo evoluciona la cantidad de fraudes detectados en el tiempo (cada pu
 
 Formato: Time series
 
-(Nota: Usamos UNIX_TIMESTAMP porque Grafana lo necesita para el eje X temporal)
+<mark>Nota:</mark> Usamos UNIX_TIMESTAMP porque Grafana lo necesita para el eje X temporal
 
 SQL:
 
@@ -761,6 +800,9 @@ SQL:
      GROUP BY window_start 
      ORDER BY window_start ASC;
 
+![image](https://github.com/user-attachments/assets/ee831523-4896-4dd0-828e-1921a4d78511)
+
+__________________________________________________________________________________________________________________________________________________________
 
 **6. 🎯 Top Usuarios Sospechosos (Bar Chart)**
 
@@ -779,6 +821,9 @@ SQL:
      ORDER BY value DESC 
      LIMIT 5;
 
+![image](https://github.com/user-attachments/assets/5625fa38-174e-4a7c-b884-024617e3063e)
+
+_____________________________________________________________________________________________________________________________________________________________
 
 **7. 🔥 Distribución de Riesgo / Volumen (Pie Chart)**
 
@@ -797,18 +842,13 @@ SQL:
      FROM fraud_metrics 
      GROUP BY metric;
    
+![image](https://github.com/user-attachments/assets/deaf581b-fe83-4321-a794-219064d943a1)
+
+**DASHBOARD FINAL**
+
+![image](https://github.com/user-attachments/assets/d298dbb3-3165-427c-981a-33b79480057f)
 
 
 
 
 
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
-
-![image]()
