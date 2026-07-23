@@ -828,7 +828,7 @@ SQL:
 
 ___________________________________________________________________________________________________________________________________________________________________________________________________________
 
-**7. 🔥 Distribución de Riesgo / Volumen (Pie Chart)**
+**7. 🔥 Distribución de Riesgo / Volumen (Bar Chart)**
 
 Como no tenemos el fraud_type en la tabla final, haremos un Pie Chart que compare el "Pesos Muertos" (Ventanas limpias) contra las "Ventanas Críticas". A los reclutadores les encanta ver proporciones.
 
