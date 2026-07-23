@@ -486,7 +486,7 @@ python:
 
 2.5. flink/[Dockerfile](https://github.com/AllGoHer/Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real/blob/main/flink/Dockerfile)
 
-2.6. flink-sql/[pipeline.sql]()
+2.6. flink-sql/[pipeline.sql](https://github.com/AllGoHer/Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real/blob/main/flink-sql/pipeline.sql)
 
 3. Abrimos el Docker Destktop y, empezamos la ejecucion del proyecto.
 
