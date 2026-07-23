@@ -135,6 +135,7 @@ Notas críticas de la configuración:
    
 3. El puerto de MySQL se mapea al <MARK>3307</MARK> para no chocar con instalaciones locales.
 
+
 **Paso 2: Construcción de la Imagen de Apache Flink**
 
 Crear el archivo **flink/[Dockerfile]()**. Se añaden los conectores necesarios al classpath de Flink:
@@ -274,7 +275,7 @@ ________________________________________________________________________________
 
 Si este proyecto te ha ayudado a aprender sobre ingeniería de datos en tiempo real, ¡dale un ⭐ en GitHub!
 ________________________________________________________________________________________________________________________________________________________________________________________________________________
-Creado con ❤️ por <MARK>**ALLAN GONZALES**</MARK> | Ingeniero de datos | Especialista en datos en tiempo real
+### 🧠 Creado con ❤️ por <MARK>**ALLAN GONZALES**</MARK> | Ingeniero de datos | Especialista en datos en tiempo real
 
 ___________________________________________________________________________________________________________________________________________________________________________________________________________________________
 ## 🚀 DESARROLLO DEL PROYECTO
@@ -587,7 +588,7 @@ cmd:
 ![image](https://github.com/user-attachments/assets/e8a2fe7a-151c-4edd-9aeb-d9df5ab67249)
 
 
-
+__________________________________________________________________________________________________________________________________________________________________
 
 **Paso 4.2: Crear Tabla Origen Kafka**
 
@@ -602,6 +603,7 @@ Aquí definimos el Watermark de 5 segundos y el Event Time basado en el epoch_mi
 
 🎥 https://youtu.be/CSQpx6z07xY
 
+_______________________________________________________________________________________________________________________________________________________________________
 **Paso 4.3: Crear Tabla Sink MySQL**
 
 sql:
@@ -615,7 +617,7 @@ El Sink JDBC apunta a MySQL con un flush cada 2 segundos o cada 100 filas.
 
 🎥 https://youtu.be/NoHcCMSSX9M
 
-
+___________________________________________________________________________________________________________________________________________________________________________
 
 **Paso 4.4: Configurar Modo Detached**
 
@@ -625,7 +627,7 @@ sql:
 
 ![image](https://github.com/user-attachments/assets/8837bff7-2e25-4e32-ae0a-fca3d790bbe6)
 
-
+___________________________________________________________________________________________________________________________________________________________________________
 
 **Paso 4.5: Lanzar el Job de Ventanas**
 
@@ -651,7 +653,7 @@ El Job se envió al clúster y pueden ver aquí en la Web UI que el estado cambi
 
 Luego, escribe <mark>QUIT;</mark> en la consola de Flink para salir limpiamente.
 
-
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________
 **FASE 5: Validación de Persistencia (La Prueba de Fuego)**
 
 Abrimos una cuarta pestaña en el terminal.
@@ -671,7 +673,7 @@ Flink tomó los miles de eventos sueltos de Kafka, los agrupó en ventanas de 10
 
 🎥https://youtu.be/xd1eOFUEw1w
 
-
+_________________________________________________________________________________________________________________________________________________________________________________________________________________________
 **FASE 6: Visualización de Negocio (Grafana)**
 
 Finalmente, exponemos estos datos a los equipos de negocio mediante un dashboard de streaming en Grafana.
@@ -704,6 +706,7 @@ En el navegador, en una pestaña nueva.
 
    ![image](https://github.com/user-attachments/assets/80ac9ca6-cd48-451e-8558-f53cb9023698)
 
+________________________________________________________________________________________________________________________________________________________________________________________________
 **Paso 3. Crear el Dashboard de Fraude**
 
 Crear el Lienzo (Dashboard)
@@ -823,7 +826,7 @@ SQL:
 
 ![image](https://github.com/user-attachments/assets/5625fa38-174e-4a7c-b884-024617e3063e)
 
-_____________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________________________
 
 **7. 🔥 Distribución de Riesgo / Volumen (Pie Chart)**
 
@@ -844,6 +847,7 @@ SQL:
    
 ![image](https://github.com/user-attachments/assets/deaf581b-fe83-4321-a794-219064d943a1)
 
+_____________________________________________________________________________________________________________________________________________________________________________________________________
 **DASHBOARD FINAL**
 
 ![image](https://github.com/user-attachments/assets/d298dbb3-3165-427c-981a-33b79480057f)
