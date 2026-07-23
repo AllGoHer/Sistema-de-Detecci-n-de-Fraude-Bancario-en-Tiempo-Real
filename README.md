@@ -316,7 +316,7 @@ Resultado:
 
 2. Abrimos Visual Studio Code y lo vinculamos con la carpeta principal del proyecto (Fraud_Detection_V2) para crear los archivos con sus respectivos codigos.
 
-2.1. [Docker-compose.yml]()
+2.1. [Docker-compose.yml](https://github.com/AllGoHer/Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real/blob/main/docker-compose.yml)
 
 2.2. Producer/[producer.py](https://github.com/AllGoHer/Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real/blob/main/producer/main.py)
 
