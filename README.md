@@ -482,7 +482,7 @@ python:
 
 2.3. producer/[Dockerfile](https://github.com/AllGoHer/Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real/blob/main/producer/Dockerfile)
 
-2.4. producer/[Requirements.txt]()
+2.4. producer/[Requirements.txt](https://github.com/AllGoHer/Sistema-de-Detecci-n-de-Fraude-Bancario-en-Tiempo-Real/blob/main/producer/requirements.txt)
 
 2.5. flink/[Dockerfile]()
 
